@@ -3,69 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <title>GGI: Grant Grace Isaiah's Math Game</title>
+  <!-- Using Google Fonts for a nicer typography -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #f0f8ff;
-      padding-top: 50px;
+    /* Reset some basic defaults */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    #game-container {
-      margin: 0 auto;
-      width: 300px;
-      background: #fff;
+    /* Body with a pleasant gradient background and flexbox centering */
+    body {
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
+      color: #333;
       padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      border-radius: 5px;
+    }
+    /* The game container has a modern card style with rounded corners and drop shadow */
+    #game-container {
+      background: #fff;
+      width: 320px;
+      padding: 30px 20px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+    /* Fade-in animation for a smooth entrance */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     h1 {
+      font-size: 24px;
       margin-bottom: 20px;
-      color: #333;
+      color: #444;
     }
     #score {
-      font-size: 20px;
+      font-size: 18px;
       margin-bottom: 10px;
     }
     #question {
-      font-size: 18px;
+      font-size: 20px;
       margin: 15px 0;
+      font-weight: bold;
     }
     input {
-      padding: 10px;
-      font-size: 16px;
       width: 80px;
+      padding: 10px;
+      font-size: 18px;
       text-align: center;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      transition: border-color 0.3s;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 10px 5px 0 5px;
-      cursor: pointer;
+    input:focus {
+      outline: none;
+      border-color: #66a6ff;
+    }
+    /* Button styling with smooth transitions and slight scaling on hover */
+    .btn {
+      background-color: #66a6ff;
       border: none;
-      border-radius: 3px;
-      background-color: #4CAF50;
-      color: white;
+      color: #fff;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
     }
-    button:hover {
-      background-color: #45a049;
+    .btn:hover {
+      background-color: #559ad4;
+      transform: scale(1.05);
     }
     #result {
       margin-top: 15px;
-      font-size: 16px;
-      height: 24px;
+      font-size: 18px;
+      min-height: 24px;
+      transition: opacity 0.5s ease-in-out;
     }
   </style>
 </head>
 <body>
   <div id="game-container">
-    <!-- The game is now personalized for Grant, Grace, and Isaiah -->
     <h1>GGI: Grant Grace Isaiah's Math Game</h1>
     <div id="score">Score: 0</div>
     <div id="question">Press "Start Game" to begin!</div>
-    <input type="number" id="answer" placeholder="Answer" autofocus>
+    <input type="number" id="answer" placeholder="Answer">
     <br>
-    <button id="submit">Submit</button>
-    <button id="start">Start Game</button>
+    <button class="btn" id="submit">Submit</button>
+    <button class="btn" id="start">Start Game</button>
     <div id="result"></div>
   </div>
 
@@ -76,17 +115,12 @@
 
     // Function to generate a random math question
     function generateQuestion() {
-      // Choose a random operator from addition, subtraction, or multiplication
       const operators = ['+', '-', '*'];
       const operator = operators[Math.floor(Math.random() * operators.length)];
-      
-      // Generate two random numbers between 1 and 20
       const num1 = Math.floor(Math.random() * 20) + 1;
       const num2 = Math.floor(Math.random() * 20) + 1;
-      
       let questionStr = `${num1} ${operator} ${num2}`;
-      
-      // Calculate the answer based on the operator
+
       switch(operator) {
         case '+':
           currentAnswer = num1 + num2;
@@ -100,7 +134,9 @@
       }
       document.getElementById('question').innerText = questionStr;
       document.getElementById('answer').value = '';
+      document.getElementById('result').style.opacity = 1;
       document.getElementById('result').innerText = '';
+      document.getElementById('answer').focus();
     }
 
     // Start or reset the game
